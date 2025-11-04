@@ -9,39 +9,39 @@
 
 void UOBRuntimeLogCaptureSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
-	Super::Initialize(Collection);
-
-	if (GLog)
-	{
-		LogOutputDevice = MakeUnique<FOBRuntimeLogOutputDevice>(this);
-		GLog->AddOutputDevice(LogOutputDevice.Get());
-	}
-
-	SaveLogsCommand = MakeUnique<FAutoConsoleCommand>(
-		TEXT("Log.SaveToFile"),
-		TEXT("Saves the runtime captured logs to a file in the project's Saved/Logs directory."),
-		FConsoleCommandDelegate::CreateUObject(this, &UOBRuntimeLogCaptureSubsystem::SaveLogsToFile_FromConsole)
-	);
-
-	UE_LOG(LogTemp, Log, TEXT("RuntimeLogCaptureSubsystem Initialized."));
+	// Super::Initialize(Collection);
+	//
+	// if (GLog)
+	// {
+	// 	LogOutputDevice = MakeUnique<FOBRuntimeLogOutputDevice>(this);
+	// 	GLog->AddOutputDevice(LogOutputDevice.Get());
+	// }
+	//
+	// SaveLogsCommand = MakeUnique<FAutoConsoleCommand>(
+	// 	TEXT("Log.SaveToFile"),
+	// 	TEXT("Saves the runtime captured logs to a file in the project's Saved/Logs directory."),
+	// 	FConsoleCommandDelegate::CreateUObject(this, &UOBRuntimeLogCaptureSubsystem::SaveLogsToFile_FromConsole)
+	// );
+	//
+	// UE_LOG(LogTemp, Log, TEXT("RuntimeLogCaptureSubsystem Initialized."));
 }
 
 void UOBRuntimeLogCaptureSubsystem::Deinitialize()
 {
-	// NEW: Tự động lưu log khi subsystem bị hủy (khi game thoát)
-	UE_LOG(LogTemp, Log, TEXT("RuntimeLogCaptureSubsystem Deinitializing. Attempting to save logs..."));
-	SaveLogsToFile_FromConsole();
-
-	if (GLog && LogOutputDevice.IsValid())
-	{
-		GLog->RemoveOutputDevice(LogOutputDevice.Get());
-	}
-	LogOutputDevice.Reset();
-
-	// Hủy đăng ký command
-	SaveLogsCommand.Reset();
-
-	Super::Deinitialize();
+	// // NEW: Tự động lưu log khi subsystem bị hủy (khi game thoát)
+	// UE_LOG(LogTemp, Log, TEXT("RuntimeLogCaptureSubsystem Deinitializing. Attempting to save logs..."));
+	// SaveLogsToFile_FromConsole();
+	//
+	// if (GLog && LogOutputDevice.IsValid())
+	// {
+	// 	GLog->RemoveOutputDevice(LogOutputDevice.Get());
+	// }
+	// LogOutputDevice.Reset();
+	//
+	// // Hủy đăng ký command
+	// SaveLogsCommand.Reset();
+	//
+	// Super::Deinitialize();
 }
 
 void UOBRuntimeLogCaptureSubsystem::GetCapturedLogs(TArray<FOBLogMessage>& OutLogs) const
