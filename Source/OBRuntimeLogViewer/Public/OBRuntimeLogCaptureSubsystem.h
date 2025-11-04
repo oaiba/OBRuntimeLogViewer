@@ -69,6 +69,10 @@ public:
 	 * @param OutLogs - Array that will be filled with log data.
 	 */
 	void GetCapturedLogs(TArray<FOBLogMessage>& OutLogs) const;
+	
+	UFUNCTION(BlueprintCallable, Category = "Runtime Log Viewer")
+	void SaveLogsToFile_FromConsole();
+	FString SaveLogsToFile(const FString& OptionalFilename);
 
 private:
 	/**
@@ -81,6 +85,11 @@ private:
 	void CaptureLog(const TCHAR* Message, ELogVerbosity::Type Verbosity, const FName& Category);
 
 	static EOBRuntimeLogVerbosity ConvertEngineVerbosity(ELogVerbosity::Type EngineVerbosity);
+
+	static FString VerbosityToString(EOBRuntimeLogVerbosity Verbosity); // NEW: Helper to convert enum to string
+
+	// NEW: Console command object to trigger saving manually
+	TUniquePtr<FAutoConsoleCommand> SaveLogsCommand;
 
 	// Custom output device to listen to logs from the engine.
 	TUniquePtr<FOBRuntimeLogOutputDevice> LogOutputDevice;
